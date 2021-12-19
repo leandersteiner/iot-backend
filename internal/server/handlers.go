@@ -51,6 +51,20 @@ func getHeartRateRange(rw http.ResponseWriter, req *http.Request) {
 	rw.Write(jsonResponse)
 }
 
+func getAllHeartRates(rw http.ResponseWriter, req *http.Request) {
+
+	heartRates, err := heartRateRepo.GetAll()
+	if err != nil {
+		rw.WriteHeader(400)
+	}
+	jsonResponse, err := json.Marshal(heartRates)
+	if err != nil {
+		rw.WriteHeader(500)
+	}
+	rw.Header().Set("Content-Type", "application/json")
+	rw.Write(jsonResponse)
+}
+
 func postHeartRate(rw http.ResponseWriter, req *http.Request) {
 	rw.Header().Set("Content-Type", "application/json")
 	body, err := ioutil.ReadAll(req.Body)

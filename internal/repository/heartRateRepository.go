@@ -36,7 +36,7 @@ func (hrl *HeartRateLog) GetLast() (model.HeartRate, error) {
 }
 
 func (hrl *HeartRateLog) GetRange(count int) ([]model.HeartRate, error) {
-	if count >= len(hrl.HeartRates) {
+	if count > len(hrl.HeartRates) {
 		return nil, errors.New("range out of bounds")
 	}
 	hrl.Mut.RLock()
@@ -45,9 +45,11 @@ func (hrl *HeartRateLog) GetRange(count int) ([]model.HeartRate, error) {
 	return result, nil
 }
 
+func (hrl *HeartRateLog) GetAll() ([]model.HeartRate, error) {
+	return hrl.HeartRates, nil
+}
+
 func (hrl *HeartRateLog) GetAverageOfRange(count int) (float32, error) {
-	hrl.Mut.RLock()
-	defer hrl.Mut.RUnlock()
 	var result float32 = 0
 	rates, err := hrl.GetRange(count)
 	size := len(rates)

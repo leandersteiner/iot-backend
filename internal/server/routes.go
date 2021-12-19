@@ -11,7 +11,7 @@ func newRouter() chi.Router {
 
 	r.Route("/api", func(r chi.Router) {
 		r.Get("/", healthCheck)
-		r.Get("/heartrate", getHeartRate)
+		r.Get("/heartrate", getAllHeartRates)
 		r.Get("/heartrate/{count}", getHeartRateRange)
 		r.Post("/heartrate", postHeartRate)
 	})
